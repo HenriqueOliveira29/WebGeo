@@ -1,0 +1,6 @@
+@WebGeoAPI_HostAddress = http://localhost:5030
+
+GET {{WebGeoAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

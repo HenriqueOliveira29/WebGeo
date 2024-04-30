@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGeoAPI", "WebGeoAPI\WebGeoAPI.csproj", "{21988EF8-94D9-4EBA-A8C1-5AB40B8279D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGeoRepository", "WebGeoRepository\WebGeoRepository.csproj", "{337EEA19-7D84-472E-95D1-6731197D2EED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGeoInfrastructure", "WebGeoInfrastructure\WebGeoInfrastructure.csproj", "{BDFB1DEC-1A5F-4591-B036-C94F76C83ABC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGeo.BLL", "WebGeo.BLL\WebGeo.BLL.csproj", "{68664692-87E6-40FA-A794-24ABA0A44896}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21988EF8-94D9-4EBA-A8C1-5AB40B8279D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21988EF8-94D9-4EBA-A8C1-5AB40B8279D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21988EF8-94D9-4EBA-A8C1-5AB40B8279D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21988EF8-94D9-4EBA-A8C1-5AB40B8279D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{337EEA19-7D84-472E-95D1-6731197D2EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{337EEA19-7D84-472E-95D1-6731197D2EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{337EEA19-7D84-472E-95D1-6731197D2EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{337EEA19-7D84-472E-95D1-6731197D2EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDFB1DEC-1A5F-4591-B036-C94F76C83ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDFB1DEC-1A5F-4591-B036-C94F76C83ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDFB1DEC-1A5F-4591-B036-C94F76C83ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDFB1DEC-1A5F-4591-B036-C94F76C83ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68664692-87E6-40FA-A794-24ABA0A44896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68664692-87E6-40FA-A794-24ABA0A44896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68664692-87E6-40FA-A794-24ABA0A44896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68664692-87E6-40FA-A794-24ABA0A44896}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64179759-2FDD-4F59-BCAC-D6BEB3482F37}
+	EndGlobalSection
+EndGlobal
