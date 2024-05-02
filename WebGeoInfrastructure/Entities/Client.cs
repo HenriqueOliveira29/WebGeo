@@ -13,5 +13,11 @@
         public string Name { get { return name; } private set => name = value; }
         public string Address { get { return address; } private set => address = value; }
         public List<Order> Orders { get { return orders; } private set => orders = value; }
+
+        public void SetValues(string name, string address)
+        {
+            this.Name = name;
+            this.address = address;
+        }
     }
 }
