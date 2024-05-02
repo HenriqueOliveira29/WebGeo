@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebGeo.BLL\WebGeo.BLL.csproj" />
     <ProjectReference Include="..\WebGeoInfrastructure\WebGeoInfrastructure.csproj" />
     <ProjectReference Include="..\WebGeoRepository\WebGeoRepository.csproj" />
   </ItemGroup>

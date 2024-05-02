@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using WebGeo.BLL.Services;
+using WebGeoInfrastructure.Interfaces.Repositories;
+using WebGeoInfrastructure.Interfaces.Services;
 using WebGeoRepository;
+using WebGeoRepository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DB"), psqloptions => psqloptions.UseNetTopologySuite()));
+
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IClientRepository, ClientRepository>();
+
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IClientService, ClientService>();
 
 var app = builder.Build();
 
