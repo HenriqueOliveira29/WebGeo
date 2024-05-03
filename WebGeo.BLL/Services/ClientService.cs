@@ -31,9 +31,27 @@ namespace WebGeo.BLL.Services
             return response;
         }
 
-        public Task<MessagingHelper<ClientDetailDTO>> GetById(int id)
+        public async Task<MessagingHelper<ClientDetailDTO?>> GetById(int id)
         {
-            throw new NotImplementedException();
+            MessagingHelper<ClientDetailDTO?> response = new MessagingHelper<ClientDetailDTO?>();
+            try
+            {
+                var client = await _clientRepository.GetById(id);
+                if (client == null)
+                {
+                    response.Success = false;
+                    response.Message = "Este cliente não existe";
+                    return response;
+                }
+                response.Success = true;
+                response.Obj = new ClientDetailDTO(client);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
         }
 
         public async Task<MessagingHelper> Insert(ClientInsertDTO clientInsert)

@@ -9,6 +9,6 @@ namespace WebGeoInfrastructure.Interfaces.Services
 
         public Task<MessagingHelper> Insert(ClientInsertDTO clientInsert);
 
-        public Task<MessagingHelper<ClientDetailDTO>> GetById(int id);
+        public Task<MessagingHelper<ClientDetailDTO?>> GetById(int id);
     }
 }
