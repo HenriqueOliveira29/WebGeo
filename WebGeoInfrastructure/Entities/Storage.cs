@@ -17,7 +17,7 @@ namespace WebGeoInfrastructure.Entities
         public List<Product> Products { get { return products; } private set => products = value; }
 
 
-        public void setLocation(Point location)
+        public void setLocation(Geometry location)
         {
             this.Location = location;
         }
