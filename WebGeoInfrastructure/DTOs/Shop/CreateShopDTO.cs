@@ -9,8 +9,9 @@ namespace WebGeoInfrastructure.DTOs.Shop
 
         public Entities.Shop toEntity()
         {
-
-            return new Entities.Shop() { Location = GeometryConverter.convertToGeometry(x, y) };
+            var shop = new Entities.Shop();
+            shop.setLocation(GeometryConverter.convertToGeometry(x, y));
+            return storage;
         }
     }
 
