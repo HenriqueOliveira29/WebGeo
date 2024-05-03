@@ -20,9 +20,11 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
+builder.Services.AddTransient<IShopRepository, ShopRepository>();
 
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IClientService, ClientService>();
+builder.Services.AddTransient<IShopService, ShopService>();
 
 var app = builder.Build();
 
