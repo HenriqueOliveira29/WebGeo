@@ -29,5 +29,12 @@ namespace WebGeoAPI.Controllers
         {
             return await _clientService.Insert(clientInsert);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<MessagingHelper<ClientDetailDTO?>> GetById(int id)
+        {
+            return await _clientService.GetById(id);
+        }
     }
 }
