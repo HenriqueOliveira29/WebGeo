@@ -14,12 +14,12 @@ namespace WebGeoInfrastructure.Entities
         private List<Order> orders;
 
         public int Id { get { return id; } private set => id = value; }
-        public Geometry Location { get { return location; } set { location = value; } }
+        public Geometry Location { get { return location; } private set { location = value; } }
         public List<ProductShop> ProductShop { get { return productShop; } private set => productShop = value; }
         public List<Product> Products { get { return products; } private set => products = value; }
         public List<Order> Orders { get { return orders; } private set => orders = value; }
 
-        public void setLocation(Point location)
+        public void setLocation(Geometry location)
         {
             this.Location = location;
         }
