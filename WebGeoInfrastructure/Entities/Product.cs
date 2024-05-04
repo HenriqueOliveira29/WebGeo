@@ -26,6 +26,13 @@
         public List<Shop> Shops { get { return shops; } private set => shops = value; }
         public List<Storage> Storages { get { return storages; } private set => storages = value; }
 
+        public void SetValues(string name, string description, float price)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.Preco = price;
+        }
+
 
     }
 }
