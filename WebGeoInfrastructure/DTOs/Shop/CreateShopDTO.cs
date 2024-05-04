@@ -11,7 +11,7 @@ namespace WebGeoInfrastructure.DTOs.Shop
         {
             var shop = new Entities.Shop();
             shop.setLocation(GeometryConverter.convertToGeometry(x, y));
-            return storage;
+            return shop;
         }
     }
 
