@@ -43,7 +43,14 @@ namespace WebGeo.BLL.Services
                     return response;
                 }
 
-                List<Product> products = new List<Product>();
+                Order order = new Order(shop, client);
+                var create = await _orderRepository.CreateOrder(order);
+                if (!create)
+                {
+                    response.Success = false;
+                    response.Message = "Cannot insert this order";
+                    return response;
+                }
 
                 foreach (ProductListDTO product in createOrder.Products)
                 {
@@ -54,20 +61,8 @@ namespace WebGeo.BLL.Services
                         response.Message = $"Product with id {product.Id} doesn't exist";
                         return response;
                     }
-                    products.Add(productExist);
+                    var addProduct = AddProductToOrder(productExist, order, product.Quantity);
                 }
-
-                Order order = new Order();
-                order.SetValues(shop, client, products);
-
-                var create = await _orderRepository.CreateOrder(order);
-                if (!create)
-                {
-                    response.Success = false;
-                    response.Message = "Cannot insert this order";
-                    return response;
-                }
-
                 response.Success = true;
             }
             catch (Exception ex)
@@ -81,6 +76,14 @@ namespace WebGeo.BLL.Services
         public async Task<List<Order>> GetOrders()
         {
             return await _orderRepository.GetOrders();
+        }
+
+        private async Task<bool> AddProductToOrder(Product product, Order order, float quantity)
+        {
+
+            order.Products.Add(product);
+            ProductOrder productOrder = new ProductOrder(product, order, quantity);
+            return await _orderRepository.CreateProductOrder(productOrder);
         }
     }
 }
