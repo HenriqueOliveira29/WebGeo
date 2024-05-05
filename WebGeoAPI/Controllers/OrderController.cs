@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebGeo.BLL.Services;
+using WebGeoInfrastructure.DTOs.Order;
 using WebGeoInfrastructure.Entities;
+using WebGeoInfrastructure.Helpers;
 
 namespace WebGeoAPI.Controllers
 {
@@ -18,6 +20,13 @@ namespace WebGeoAPI.Controllers
         public async Task<List<Order>> GetOrders()
         {
             return await _orderService.GetOrders();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<MessagingHelper> Create(CreateOrderDTO createOrder)
+        {
+            return await _orderService.CreateOrder(createOrder);
         }
     }
 }
