@@ -33,6 +33,16 @@
         public int ShopId { get { return shopId; } private set => shopId = value; }
         public Shop Shop { get { return shop; } private set => shop = value; }
 
+        public void SetValues(Shop shop, Client client, List<Product> products)
+        {
+            this.Shop = shop;
+            this.Client = client;
+            this.Products = products;
+            this.Date = DateTime.Now;
+            this.state = "Processing";
+            this.DateDeliver = null;
+        }
+
 
     }
 }

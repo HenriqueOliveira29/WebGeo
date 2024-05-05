@@ -58,16 +58,24 @@ namespace WebGeo.BLL.Services
                 }
 
                 Order order = new Order();
+                order.SetValues(shop, client, products);
 
+                var create = await _orderRepository.CreateOrder(order);
+                if (!create)
+                {
+                    response.Success = false;
+                    response.Message = "Cannot insert this order";
+                    return response;
+                }
 
-
-
-
+                response.Success = true;
             }
             catch (Exception ex)
             {
-
+                response.Success = false;
+                response.Message = ex.Message;
             }
+            return response;
         }
 
         public async Task<List<Order>> GetOrders()
