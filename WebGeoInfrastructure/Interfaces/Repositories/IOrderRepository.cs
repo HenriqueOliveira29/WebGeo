@@ -7,6 +7,8 @@ namespace WebGeoInfrastructure.Interfaces.Repositories
         public Task<List<Order>> GetOrders();
         public Task<bool> CreateOrder(Order order);
 
+        public Task<bool> CreateProductOrder(ProductOrder);
+
 
     }
 }

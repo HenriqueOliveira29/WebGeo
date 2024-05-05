@@ -4,7 +4,7 @@
     {
         private int id;
 
-        public DateTime date;
+        private DateTime date;
 
         private string state;
 
@@ -18,7 +18,7 @@
 
         private List<Product> products;
 
-        public int shopId;
+        private int shopId;
         private Shop shop;
 
         public int Id { get { return id; } private set => id = value; }
@@ -33,14 +33,27 @@
         public int ShopId { get { return shopId; } private set => shopId = value; }
         public Shop Shop { get { return shop; } private set => shop = value; }
 
-        public void SetValues(Shop shop, Client client, List<Product> products)
+        public Order()
+        {
+
+        }
+
+        public Order(Shop shop, Client client)
         {
             this.Shop = shop;
             this.Client = client;
-            this.Products = products;
             this.Date = DateTime.Now;
             this.state = "Processing";
             this.DateDeliver = null;
+        }
+
+        public void AddProducts(Product product)
+        {
+            if (this.Products == null)
+            {
+                this.products = new List<Product>();
+            }
+            this.products.Add(product);
         }
 
 
