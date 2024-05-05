@@ -17,5 +17,19 @@ namespace WebGeoRepository.Repositories
         {
             return await _context.Orders.ToListAsync();
         }
+
+        public async Task<bool> CreateOrder(Order order)
+        {
+            try
+            {
+                await _context.Orders.AddAsync(order);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
