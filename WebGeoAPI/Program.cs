@@ -22,11 +22,13 @@ builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IStorageRepository, StorageRepository>();
 
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IClientService, ClientService>();
 builder.Services.AddTransient<IShopService, ShopService>();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IStorageService, StorageService>();
 
 var app = builder.Build();
 

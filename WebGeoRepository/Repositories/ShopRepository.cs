@@ -1,4 +1,5 @@
-﻿using WebGeoInfrastructure.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using WebGeoInfrastructure.Entities;
 using WebGeoInfrastructure.Interfaces.Repositories;
 
 namespace WebGeoRepository.Repositories
@@ -25,6 +26,11 @@ namespace WebGeoRepository.Repositories
                 return false;
             }
 
+        }
+
+        public async Task<Shop?> GetById(int id)
+        {
+            return await _context.Shops.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
     }
 }
