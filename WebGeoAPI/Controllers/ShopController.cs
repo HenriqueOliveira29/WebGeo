@@ -21,5 +21,14 @@ namespace WebGeoAPI.Controllers
         {
             return await _shopService.Create(createShop);
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<MessagingHelper> AddProductShop(AddProductToShopDTO addProductToShop)
+        {
+            return await _shopService.AddProductToShop(addProductToShop);
+        }
+
+
     }
 }

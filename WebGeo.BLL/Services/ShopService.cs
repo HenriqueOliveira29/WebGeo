@@ -1,4 +1,5 @@
 ﻿using WebGeoInfrastructure.DTOs.Shop;
+using WebGeoInfrastructure.Entities;
 using WebGeoInfrastructure.Helpers;
 using WebGeoInfrastructure.Interfaces.Repositories;
 using WebGeoInfrastructure.Interfaces.Services;
@@ -8,9 +9,11 @@ namespace WebGeo.BLL.Services
     public class ShopService : IShopService
     {
         private readonly IShopRepository _shopRepository;
-        public ShopService(IShopRepository shopRepository)
+        private readonly IProductRepository _productRepository;
+        public ShopService(IShopRepository shopRepository, IProductRepository productRepository)
         {
             _shopRepository = shopRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<MessagingHelper> Create(CreateShopDTO createShop)
@@ -27,6 +30,52 @@ namespace WebGeo.BLL.Services
                 }
 
                 response.Success = create;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<MessagingHelper> AddProductToShop(AddProductToShopDTO addProductToShop)
+        {
+            MessagingHelper response = new MessagingHelper();
+            try
+            {
+                var shop = await _shopRepository.GetById(addProductToShop.ShopId);
+                if (shop == null)
+                {
+                    response.Success = false;
+                    response.Message = "This shop doesn't exist";
+                    return response;
+                }
+                var product = await _productRepository.GetById(addProductToShop.ProductId);
+                if (product == null)
+                {
+                    response.Success = false;
+                    response.Message = "This product doesn't exist";
+                    return response;
+                }
+
+                var productShopExist = await _shopRepository.GetProductShop(shop.Id, product.Id);
+                if (productShopExist == null)
+                {
+                    ProductShop productShop = new ProductShop(shop, product, addProductToShop.quantity);
+                    var create = await _shopRepository.AddProductToShop(productShop);
+                    if (!create)
+                    {
+                        response.Success = false;
+                        response.Message = "Can´t insert this product";
+                    }
+                }
+                else
+                {
+                    productShopExist.AddStock(addProductToShop.quantity);
+                    var update = await _shopRepository.UpdateStockProductShop(productShopExist);
+                }
+                response.Success = true;
             }
             catch (Exception ex)
             {
