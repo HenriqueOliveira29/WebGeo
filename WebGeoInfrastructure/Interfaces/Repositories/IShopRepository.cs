@@ -13,5 +13,7 @@ namespace WebGeoInfrastructure.Interfaces.Repositories
         public Task<ProductShop> UpdateStockProductShop(ProductShop productShop);
 
         public Task<ProductShop?> GetProductShop(int shopId, int productId);
+
+        public Task<List<ProductShop>> GetProductsOfShop(int shopId);
     }
 }
