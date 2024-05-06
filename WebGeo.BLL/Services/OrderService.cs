@@ -81,7 +81,7 @@ namespace WebGeo.BLL.Services
         private async Task<bool> AddProductToOrder(Product product, Order order, float quantity)
         {
 
-            order.Products.Add(product);
+            order.AddProducts(product);
             ProductOrder productOrder = new ProductOrder(product, order, quantity);
             return await _orderRepository.CreateProductOrder(productOrder);
         }

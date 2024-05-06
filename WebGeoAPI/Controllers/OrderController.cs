@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebGeo.BLL.Services;
 using WebGeoInfrastructure.DTOs.Order;
 using WebGeoInfrastructure.Entities;
 using WebGeoInfrastructure.Helpers;
+using WebGeoInfrastructure.Interfaces.Services;
 
 namespace WebGeoAPI.Controllers
 {
@@ -10,8 +10,8 @@ namespace WebGeoAPI.Controllers
     [Route("[controller]")]
     public class OrderController : ControllerBase
     {
-        private readonly OrderService _orderService;
-        public OrderController(OrderService orderService)
+        private readonly IOrderService _orderService;
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }

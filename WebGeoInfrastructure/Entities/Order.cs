@@ -42,7 +42,7 @@
         {
             this.Shop = shop;
             this.Client = client;
-            this.Date = DateTime.Now;
+            this.Date = DateTime.Now.ToUniversalTime();
             this.state = "Processing";
             this.DateDeliver = null;
         }
