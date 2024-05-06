@@ -59,5 +59,10 @@ namespace WebGeoRepository.Repositories
             return await _context.ProductShops.Include(ps => ps.Product).Include(ps => ps.Shop)
                 .Where(ps => ps.Shop.Id == shopId && ps.Product.Id == productId).FirstOrDefaultAsync();
         }
+
+        public async Task<List<ProductShop>> GetProductsOfShop(int shopId)
+        {
+            return await _context.ProductShops.Include(ps => ps.Product).Include(ps => ps.Shop).Where(ps => ps.Shop.Id == shopId).ToListAsync();
+        }
     }
 }
