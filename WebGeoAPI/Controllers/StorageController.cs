@@ -29,7 +29,7 @@ namespace WebGeoAPI.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("/")]
         public async Task<MessagingHelper<List<StorageListDTO>>> GetStorages()
         {
             return await _storageService.GetStorages();

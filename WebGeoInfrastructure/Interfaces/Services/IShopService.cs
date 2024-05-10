@@ -9,5 +9,7 @@ namespace WebGeoInfrastructure.Interfaces.Services
         public Task<MessagingHelper> AddProductToShop(AddProductToShopDTO addProductToShop);
 
         public Task<MessagingHelper<List<ProductShopListDTO>>> GetProductsOfShop(int shopId);
+
+        public Task<MessagingHelper<List<ShopListDTO>>> GetShops();
     }
 }

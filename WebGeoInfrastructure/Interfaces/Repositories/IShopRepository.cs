@@ -8,6 +8,8 @@ namespace WebGeoInfrastructure.Interfaces.Repositories
 
         public Task<Shop?> GetById(int id);
 
+        public Task<List<Shop>> GetShops();
+
         public Task<bool> AddProductToShop(ProductShop productShop);
 
         public Task<ProductShop> UpdateStockProductShop(ProductShop productShop);
