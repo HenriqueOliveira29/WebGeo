@@ -102,5 +102,23 @@ namespace WebGeo.BLL.Services
             }
             return response;
         }
+
+        public async Task<MessagingHelper<List<ShopListDTO>>> GetShops()
+        {
+            MessagingHelper<List<ShopListDTO>> response = new MessagingHelper<List<ShopListDTO>>();
+            try
+            {
+                var list = await _shopRepository.GetShops();
+                response.Obj = list.Select(x => new ShopListDTO(x.Id, "")).ToList();
+                response.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
     }
 }
