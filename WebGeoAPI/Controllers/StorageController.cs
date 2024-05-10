@@ -20,5 +20,12 @@ namespace WebGeoAPI.Controllers
         {
             return await _storageService.Create(createStorage);
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<MessagingHelper> AddProductToStorage(AddProductToStorageDTO addProductToStorage)
+        {
+            return await _storageService.AddProductToStorage(addProductToStorage);
+        }
     }
 }
