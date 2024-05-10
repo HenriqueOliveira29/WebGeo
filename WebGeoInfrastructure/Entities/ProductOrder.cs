@@ -11,12 +11,14 @@
         private int productId;
         private Product product;
         private float quantity;
+        private bool inShop = true;
 
         public int Id { get { return id; } private set => id = value; }
         public int OrderId { get { return orderId; } private set => orderId = value; }
         public Order Order { get { return order; } private set => order = value; }
         public int ProductId { get { return productId; } private set => productId = value; }
         public Product Product { get { return product; } private set => product = value; }
+        public bool InShop { get { return inShop; } private set => inShop = value; }
         public float Quantity
         {
             get { return quantity; }
@@ -40,5 +42,11 @@
             this.Order = order;
             this.Quantity = quantity;
         }
+
+        public void SetIsNotInShop()
+        {
+            this.InShop = false;
+        }
+
     }
 }

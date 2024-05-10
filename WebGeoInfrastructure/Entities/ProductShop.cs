@@ -40,5 +40,10 @@
         {
             this.Stock += quantity;
         }
+
+        public void RetireStock(float quantity)
+        {
+            this.Stock -= quantity;
+        }
     }
 }

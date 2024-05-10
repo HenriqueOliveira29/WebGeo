@@ -9,6 +9,10 @@ namespace WebGeoInfrastructure.Interfaces.Repositories
 
         public Task<bool> CreateProductOrder(ProductOrder productOrder);
 
+        public Task<Order?> GetById(int id);
+
+        public Task<Order> Update(Order order);
+
 
     }
 }

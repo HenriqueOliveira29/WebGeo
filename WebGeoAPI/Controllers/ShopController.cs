@@ -36,6 +36,13 @@ namespace WebGeoAPI.Controllers
             return await _shopService.GetProductsOfShop(id);
         }
 
+        [HttpGet]
+        [Route("")]
+        public async Task<MessagingHelper<List<ShopListDTO>>> Index()
+        {
+            return await _shopService.GetShops();
+        }
+
 
     }
 }

@@ -28,5 +28,12 @@ namespace WebGeoAPI.Controllers
         {
             return await _orderService.CreateOrder(createOrder);
         }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public async Task<MessagingHelper> ValidateOrder(int id)
+        {
+            return await _orderService.ValidateOrder(id);
+        }
     }
 }

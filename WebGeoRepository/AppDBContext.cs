@@ -69,6 +69,8 @@ namespace WebGeoRepository
             modelBuilder.Entity<ProductOrder>(a =>
             {
                 a.HasKey(e => e.Id);
+
+                a.Property(e => e.InShop).HasDefaultValue(true);
             });
             modelBuilder.Entity<ProductShop>(a =>
             {

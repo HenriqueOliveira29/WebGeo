@@ -45,5 +45,17 @@ namespace WebGeoRepository.Repositories
                 return false;
             }
         }
+
+        public async Task<Order?> GetById(int id)
+        {
+            return await _context.Orders.Include(o => o.ProductOrders).Include(o => o.Products).Include(o => o.Shop).ThenInclude(s => s.ProductShop).FirstOrDefaultAsync();
+        }
+
+        public async Task<Order> Update(Order order)
+        {
+            _context.Entry<Order>(order).CurrentValues.SetValues(order);
+            await _context.SaveChangesAsync();
+            return order;
+        }
     }
 }

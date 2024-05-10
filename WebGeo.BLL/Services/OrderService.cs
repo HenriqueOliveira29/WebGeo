@@ -85,5 +85,50 @@ namespace WebGeo.BLL.Services
             ProductOrder productOrder = new ProductOrder(product, order, quantity);
             return await _orderRepository.CreateProductOrder(productOrder);
         }
+
+        public async Task<MessagingHelper> ValidateOrder(int id)
+        {
+            MessagingHelper response = new MessagingHelper();
+            try
+            {
+                Order? order = await _orderRepository.GetById(id);
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "this order doesn't exist";
+                    return response;
+                }
+
+                if (order.State != OrderState.Active.ToString())
+                {
+                    response.Success = false;
+                    response.Message = "this order is already validated";
+                    return response;
+                }
+
+                foreach (ProductOrder product in order.ProductOrders)
+                {
+                    var ProductInShop = await _shopRepository.GetProductShop(order.ShopId, product.ProductId);
+                    if (ProductInShop == null || product.Quantity > ProductInShop.Stock)
+                    {
+                        order.SetOrderOnWaitingStock();
+                        product.SetIsNotInShop();
+                    }
+                    else
+                    {
+                        ProductInShop.RetireStock(product.Quantity);
+                    }
+                }
+
+                await _orderRepository.Update(order);
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
     }
 }

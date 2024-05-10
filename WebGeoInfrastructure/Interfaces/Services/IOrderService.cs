@@ -9,5 +9,7 @@ namespace WebGeoInfrastructure.Interfaces.Services
         public Task<List<Order>> GetOrders();
 
         public Task<MessagingHelper> CreateOrder(CreateOrderDTO createOrder);
+
+        public Task<MessagingHelper> ValidateOrder(int id);
     }
 }

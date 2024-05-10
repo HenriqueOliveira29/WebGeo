@@ -43,7 +43,7 @@
             this.Shop = shop;
             this.Client = client;
             this.Date = DateTime.Now.ToUniversalTime();
-            this.state = "Processing";
+            this.state = OrderState.Active.ToString();
             this.DateDeliver = null;
         }
 
@@ -56,6 +56,20 @@
             this.products.Add(product);
         }
 
+        public void SetOrderOnWaitingStock()
+        {
+            this.State = OrderState.WaitingForStock.ToString();
+        }
 
+    }
+
+    public enum OrderState
+    {
+        Active,
+        WaitingForStock,
+        Validated,
+        WaitForClient,
+        Canceled,
+        Concluded,
     }
 }
