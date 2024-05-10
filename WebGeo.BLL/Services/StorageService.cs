@@ -84,5 +84,40 @@ namespace WebGeo.BLL.Services
             }
             return response;
         }
+
+        public async Task<MessagingHelper<List<ProductStorageListDTO>>> GetProductsOfStorage(int storageId)
+        {
+            MessagingHelper<List<ProductStorageListDTO>> response = new MessagingHelper<List<ProductStorageListDTO>>();
+            try
+            {
+                var list = await _storageRepository.GetProductStorages(storageId);
+                response.Obj = list.Select(ps => new ProductStorageListDTO(storageId, ps.Product.Name, ps.Product.Description, ps.Stock)).ToList();
+                response.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<MessagingHelper<List<StorageListDTO>>> GetStorages()
+        {
+            MessagingHelper<List<StorageListDTO>> response = new MessagingHelper<List<StorageListDTO>>();
+            try
+            {
+                var list = await _storageRepository.GetStorages();
+                response.Obj = list.Select(s => new StorageListDTO(s.Id, "")).ToList();
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
     }
 }

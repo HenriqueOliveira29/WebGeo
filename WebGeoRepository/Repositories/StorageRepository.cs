@@ -57,5 +57,15 @@ namespace WebGeoRepository.Repositories
             await _context.SaveChangesAsync();
             return productStorage;
         }
+
+        public async Task<List<ProductStorage>> GetProductStorages(int storageId)
+        {
+            return await _context.ProductStorages.Include(ps => ps.Product).Include(ps => ps.Storage).Where(ps => ps.Storage.Id == storageId).ToListAsync();
+        }
+
+        public async Task<List<Storage>> GetStorages()
+        {
+            return await _context.Storages.ToListAsync();
+        }
     }
 }
