@@ -1,0 +1,7 @@
+{
+  "name": "WebGeo.Frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
