@@ -75,7 +75,7 @@ namespace WebGeoRepository.Repositories
             return await _context.Shops.ToListAsync();
         }
 
-        public async Task<List<Storage>> GetStoragesCloseToShop(Shop shop, ProductOrder product)
+        public async Task<List<Storage>> GetStoragesCloseToShopToReStock(Shop shop, ProductOrder product)
         {
             return await _context.ProductStorages.Include(ps => ps.Product).Include(ps => ps.Storage).Where(s => s.Product.Id == product.ProductId && s.Stock >= product.Quantity).OrderBy(s => s.Storage.Location.Distance(shop.Location)).Select(t => t.Storage).ToListAsync();
         }
