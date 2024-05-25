@@ -73,9 +73,12 @@ namespace WebGeo.BLL.Services
             return response;
         }
 
-        public async Task<List<Order>> GetOrders()
+        public async Task<List<OrderListDTO>> GetOrders()
         {
-            return await _orderRepository.GetOrders();
+            var orders = await _orderRepository.GetOrders();
+            var response = orders.Select(t => new OrderListDTO(t)).ToList();
+
+            return response;
         }
 
         private async Task<bool> AddProductToOrder(Product product, Order order, float quantity)

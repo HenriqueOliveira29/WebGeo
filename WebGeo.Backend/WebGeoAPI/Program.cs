@@ -6,8 +6,29 @@ using WebGeoInfrastructure.Interfaces.Services;
 using WebGeoRepository;
 using WebGeoRepository.Repositories;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
+string appSettingsFile = builder.Environment.EnvironmentName == "Development" ? $"appsettings.{builder.Environment.EnvironmentName}.json" : "appsettings.json";
+
+builder.Configuration
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile(appSettingsFile, optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+
+
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+
+    builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials();
+}));
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,7 +37,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DB"), psqloptions => psqloptions.UseNetTopologySuite()));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), psqloptions => psqloptions.UseNetTopologySuite()));
 
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
@@ -38,6 +59,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebGeoInfrastructure.DTOs.Order;
-using WebGeoInfrastructure.Entities;
 using WebGeoInfrastructure.Helpers;
 using WebGeoInfrastructure.Interfaces.Services;
 
@@ -17,7 +16,7 @@ namespace WebGeoAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Order>> GetOrders()
+        public async Task<List<OrderListDTO>> GetOrders()
         {
             return await _orderService.GetOrders();
         }

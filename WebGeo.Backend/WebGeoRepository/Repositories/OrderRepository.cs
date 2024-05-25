@@ -15,7 +15,7 @@ namespace WebGeoRepository.Repositories
 
         public async Task<List<Order>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            return await _context.Orders.Include(t => t.Products).ToListAsync();
         }
 
         public async Task<bool> CreateOrder(Order order)
