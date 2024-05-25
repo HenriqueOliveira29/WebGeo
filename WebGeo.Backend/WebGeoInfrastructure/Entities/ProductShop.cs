@@ -4,12 +4,20 @@
     {
         private int id;
 
+
+        private int shopId;
         private Shop shop;
+
+        private int productId;
         private Product product;
 
         private float stock;
         public int Id { get { return id; } private set => id = value; }
+
+        public int ProductId { get { return productId; } private set => productId = value; }
         public Product Product { get { return product; } private set => product = value; }
+
+        public int ShopId { get { return shopId; } private set => shopId = value; }
         public Shop Shop { get { return shop; } private set => shop = value; }
         public float Stock
         {

@@ -1,6 +1,4 @@
-﻿using WebGeoInfrastructure.Helpers;
-
-namespace WebGeoInfrastructure.DTOs.Shop
+﻿namespace WebGeoInfrastructure.DTOs.Shop
 {
     public class CreateShopDTO
     {
@@ -10,7 +8,6 @@ namespace WebGeoInfrastructure.DTOs.Shop
         public Entities.Shop toEntity()
         {
             var shop = new Entities.Shop();
-            shop.setLocation(GeometryConverter.convertToGeometry(x, y));
             return shop;
         }
     }

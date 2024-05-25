@@ -1,6 +1,4 @@
-﻿using WebGeoInfrastructure.Helpers;
-
-namespace WebGeoInfrastructure.DTOs.Storage
+﻿namespace WebGeoInfrastructure.DTOs.Storage
 {
     public class CreateStorageDTO
     {
@@ -10,7 +8,6 @@ namespace WebGeoInfrastructure.DTOs.Storage
         public Entities.Storage toEntity()
         {
             var storage = new Entities.Storage();
-            storage.setLocation(GeometryConverter.convertToGeometry(x, y));
             return storage;
         }
     }

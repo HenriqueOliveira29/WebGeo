@@ -56,15 +56,18 @@ namespace WebGeoRepository
             {
                 a.HasKey(e => e.Id);
 
-
-                a.Property(b => b.Location).HasColumnType("geometry(Point, 4326)");
+                a.HasOne(e => e.Locality)
+                .WithMany(e => e.Shops)
+                .HasForeignKey(e => e.LocalityId);
 
             });
             modelBuilder.Entity<Storage>(a =>
             {
                 a.HasKey(e => e.Id);
 
-                a.Property(b => b.Location).HasColumnType("geometry(Point, 4326)");
+                a.HasOne(e => e.Locality)
+                 .WithMany(e => e.Storages)
+                 .HasForeignKey(e => e.LocalityId);
             });
             modelBuilder.Entity<ProductOrder>(a =>
             {
@@ -83,6 +86,29 @@ namespace WebGeoRepository
             });
 
 
+            modelBuilder.Entity<Locality>(a =>
+            {
+                a.HasKey(e => e.Id);
+
+                a.Property(b => b.Location).HasColumnType("geometry(Point, 3763)");
+
+            });
+
+            modelBuilder.Entity<Routes>(a =>
+            {
+                a.HasKey(e => e.Id);
+
+                a.HasOne(e => e.Origin)
+                .WithMany(e => e.OriginList)
+                .HasForeignKey(e => e.OriginId);
+
+                a.HasOne(e => e.Destiny)
+                .WithMany(e => e.DestinyList)
+                .HasForeignKey(e => e.DestinyId);
+
+            });
+
+
 
         }
 
@@ -94,6 +120,10 @@ namespace WebGeoRepository
         public virtual DbSet<ProductOrder> ProductOrders { get; set; }
         public virtual DbSet<ProductShop> ProductShops { get; set; }
         public virtual DbSet<ProductStorage> ProductStorages { get; set; }
+        public virtual DbSet<Locality> Localities { get; set; }
+        public virtual DbSet<Routes> Routes { get; set; }
+
+
 
 
     }
