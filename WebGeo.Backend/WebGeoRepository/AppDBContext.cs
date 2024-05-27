@@ -106,6 +106,8 @@ namespace WebGeoRepository
                 .WithMany(e => e.DestinyList)
                 .HasForeignKey(e => e.DestinyId);
 
+                a.Property(b => b.Geom).HasColumnType("geometry(LINESTRING, 3763)");
+
             });
 
 

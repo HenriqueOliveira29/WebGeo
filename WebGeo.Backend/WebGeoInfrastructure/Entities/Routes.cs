@@ -1,4 +1,6 @@
-﻿namespace WebGeoInfrastructure.Entities
+﻿using NetTopologySuite.Geometries;
+
+namespace WebGeoInfrastructure.Entities
 {
     public class Routes
     {
@@ -13,8 +15,9 @@
         private int destinyId;
 
         private Locality destiny;
-
         private int time;
+
+        private Geometry geom;
 
         public int Id { get { return id; } private set => id = value; }
         public int Weight { get { return weight; } private set => weight = value; }
@@ -25,5 +28,7 @@
 
         public int DestinyId { get { return destinyId; } private set => destinyId = value; }
         public Locality Destiny { get { return destiny; } private set => destiny = value; }
+
+        public Geometry Geom { get { return geom; } private set { geom = value; } }
     }
 }
