@@ -264,7 +264,5 @@ namespace WebGeo.BLL.Services
             return storageToReturn;
 
         }
-
-        public MessagingHelper
     }
 }
