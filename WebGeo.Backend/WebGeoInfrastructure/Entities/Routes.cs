@@ -1,8 +1,10 @@
 ﻿using NetTopologySuite.Geometries;
+using QuickGraph;
+
 
 namespace WebGeoInfrastructure.Entities
 {
-    public class Routes
+    public class Routes : IEdge<int>
     {
         private int id;
 
@@ -30,5 +32,9 @@ namespace WebGeoInfrastructure.Entities
         public Locality Destiny { get { return destiny; } private set => destiny = value; }
 
         public Geometry Geom { get { return geom; } private set { geom = value; } }
+        public int Source { get { return originId; } }
+        public int Target { get { return destinyId; } }
+
+
     }
 }

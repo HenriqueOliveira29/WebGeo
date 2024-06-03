@@ -8,6 +8,8 @@ namespace WebGeoInfrastructure.DTOs.Order
 
         public int ShopId { get; set; }
 
+        public DateTime DateDeliver { get; set; }
+
         public List<ProductListDTO> Products { get; set; }
     }
 }

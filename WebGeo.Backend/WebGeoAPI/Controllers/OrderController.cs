@@ -34,5 +34,19 @@ namespace WebGeoAPI.Controllers
         {
             return await _orderService.ValidateOrder(id);
         }
+
+        [HttpDelete]
+        [Route("/{id}")]
+        public async Task<MessagingHelper> CancelOrder(int id)
+        {
+            return await _orderService.CancelOrder(id);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<MessagingHelper<List<RoutesCordDTO>>> CalculateRoute(CalculateRouteDTO calculateRoute)
+        {
+            return await _orderService.CalculateBestPath(calculateRoute);
+        }
     }
 }

@@ -120,39 +120,5 @@ namespace WebGeo.BLL.Services
             }
             return response;
         }
-
-        public async Task<MessagingHelper<List<Storage>>> GetBetterRoadToReStock(int shopId)
-        {
-            MessagingHelper<List<Storage>> response = new MessagingHelper<List<Storage>>();
-            try
-            {
-                List<Storage> storages = new List<Storage>();
-                var shop = await _shopRepository.GetById(shopId);
-                if (shop == null)
-                {
-                    response.Success = false;
-                    response.Message = "This shop doesn´t exist";
-                    return response;
-                }
-
-                var productOrdersToRestock = await _shopRepository.GetProductOrdersToReStockFromShop(shopId);
-                foreach (ProductOrder po in productOrdersToRestock)
-                {
-                    List<Storage> closestStorages = await _shopRepository.GetStoragesCloseToShopToReStock(shop, po);
-                    if (closestStorages.Count > 0)
-                    {
-                        storages.Add(closestStorages[0]);
-                    }
-                }
-                response.Success = true;
-                response.Obj = storages;
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-            return response;
-        }
     }
 }

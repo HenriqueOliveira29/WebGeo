@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Npgsql.NetTopologySuite" Version="8.0.2" />
+    <PackageReference Include="ProjNET4GeoAPI" Version="1.4.1" />
+    <PackageReference Include="QuickGraph" Version="3.6.61119.7" />
   </ItemGroup>
 
 </Project>

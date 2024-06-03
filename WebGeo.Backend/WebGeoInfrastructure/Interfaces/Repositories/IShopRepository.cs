@@ -20,6 +20,6 @@ namespace WebGeoInfrastructure.Interfaces.Repositories
 
         public Task<List<ProductOrder>> GetProductOrdersToReStockFromShop(int id);
 
-        public Task<List<Storage>> GetStoragesCloseToShopToReStock(Shop shop, ProductOrder product);
+        public Task<List<Storage>> GetStoragesCloseToShopToReStock(double cordX, double cordY);
     }
 }

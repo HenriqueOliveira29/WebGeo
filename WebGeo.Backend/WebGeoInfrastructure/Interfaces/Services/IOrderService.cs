@@ -10,5 +10,9 @@ namespace WebGeoInfrastructure.Interfaces.Services
         public Task<MessagingHelper> CreateOrder(CreateOrderDTO createOrder);
 
         public Task<MessagingHelper> ValidateOrder(int id);
+
+        public Task<MessagingHelper> CancelOrder(int id);
+
+        public Task<MessagingHelper<List<RoutesCordDTO>>> CalculateBestPath(CalculateRouteDTO calculateRoute);
     }
 }

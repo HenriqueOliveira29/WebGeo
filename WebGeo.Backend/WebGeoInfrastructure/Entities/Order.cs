@@ -47,6 +47,11 @@
             this.DateDeliver = null;
         }
 
+        public void SetDateDeliver(DateTime date)
+        {
+            this.dateDeliver = date.ToUniversalTime();
+        }
+
         public void AddProducts(Product product)
         {
             if (this.Products == null)
@@ -59,6 +64,11 @@
         public void SetOrderOnWaitingStock()
         {
             this.State = OrderState.WaitingForStock.ToString();
+        }
+
+        public void Cancel()
+        {
+            this.State = OrderState.Canceled.ToString();
         }
 
     }
