@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/listagem"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Encomenda Nº: {{encomenda?.id}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-order-mapa></app-order-mapa>
+  <ion-content>
+    <ion-title>Produtos para buscar ao armazém e entregar na loja</ion-title>
+    <ion-list style="margin: 20px">
+      <ion-item *ngFor="let product of encomenda?.products">
+        <ion-label>{{product.name}}</ion-label>
+        <ion-label>{{product.description}}</ion-label>
+        <ion-label>{{product.quantity}}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-title>Informações</ion-title>
+    <ion-row style="margin: 20px;">
+      <ion-col>
+        <ion-label>
+          <h2 style="margin: 10px;"> data entrega:  {{ encomenda?.dateString }}</h2>
+          <h2 style="margin: 10px;"> Loja de entrega:  {{ encomenda?.shopName }}</h2>
+          <h2 style="margin: 10px;"> Armazém de recolha:  {{ encomenda?.storageName }}</h2>
+        </ion-label>
+      </ion-col>
+      <ion-col>
+          <ion-button (click)="entregarEncomenda()">Entregar Encomenda</ion-button>     
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ion-content>

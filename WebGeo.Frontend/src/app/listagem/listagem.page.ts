@@ -2,23 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule} from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EncomendasService } from './encomendas.service';
-import { Encomenda } from '../modules/encomenda.model';
+import { EncomendaList } from '../modules/encomendaList.model';
 
 @Component({
   selector: 'app-listagem',
   templateUrl: './listagem.page.html',
   styleUrls: ['./listagem.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 export class ListagemPage implements OnInit {
 
-  encomendas:Encomenda[] = [];
+  encomendas:EncomendaList[] = [];
   constructor(private activateRoute: ActivatedRoute,
-    private httpClient: HttpClient,
     private encomendasService: EncomendasService
   ) { }
 
@@ -28,8 +27,7 @@ export class ListagemPage implements OnInit {
 
   Refresh(){
     this.encomendasService.getEncomendas().subscribe(resultado => {
-      this.encomendas = resultado;
-      
+        this.encomendas = resultado;
     })
   }
 
