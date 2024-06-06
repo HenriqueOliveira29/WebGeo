@@ -47,7 +47,7 @@ namespace WebGeoRepository.Repositories
 
         public async Task<Order?> GetById(int id)
         {
-            return await _context.Orders.Include(o => o.ProductOrders).Include(o => o.Products).Include(o => o.Shop).ThenInclude(s => s.ProductShop).Include(t => t.Shop.Locality).FirstOrDefaultAsync();
+            return await _context.Orders.Include(o => o.ProductOrders).ThenInclude(o => o.Product).Include(o => o.Products).Include(o => o.Shop).ThenInclude(s => s.ProductShop).Include(t => t.Shop.Locality).Include(t => t.StorageRestock).ThenInclude(t => t.Locality).Where(p => p.Id == id && p.State != OrderState.Concluded.ToString()).FirstOrDefaultAsync();
         }
 
         public async Task<Order> Update(Order order)
@@ -64,7 +64,14 @@ namespace WebGeoRepository.Repositories
 
         public async Task<List<Order>> GetOrdersToRestock()
         {
-            return await _context.Orders.Include(t => t.ProductOrders).Where(t => t.ProductOrders.Where(s => s.InShop == false).Any() == true).OrderBy(t => t.Date).ToListAsync();
+            return await _context.Orders.Include(t => t.ProductOrders).Include(t => t.Shop).ThenInclude(t => t.Locality).Where(t => t.ProductOrders.Where(s => s.InShop == false).Any() == true && t.State == OrderState.WaitingForStock.ToString()).OrderBy(t => t.Date).ToListAsync();
+        }
+
+        public async Task<ProductStorage> UpdateProductStorage(ProductStorage productStorage)
+        {
+            _context.Entry<ProductStorage>(productStorage).CurrentValues.SetValues(productStorage);
+            await _context.SaveChangesAsync();
+            return productStorage;
         }
     }
 }

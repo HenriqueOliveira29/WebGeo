@@ -44,9 +44,23 @@ namespace WebGeoAPI.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<MessagingHelper<List<RoutesCordDTO>>> CalculateRoute(CalculateRouteDTO calculateRoute)
+        public async Task<MessagingHelper<OrderDetailDTO>> GetOrderByIdAndCords(CalculateRouteDTO calculateRoute)
         {
             return await _orderService.CalculateBestPath(calculateRoute);
+        }
+
+        [HttpPut]
+        [Route("[action]/{orderId}")]
+        public async Task<MessagingHelper> DeliverToClient(int orderId)
+        {
+            return await _orderService.DelieverToClient(orderId);
+        }
+
+        [HttpPut]
+        [Route("[action]/{orderId}")]
+        public async Task<MessagingHelper> DeliverRestockToShop(int orderId)
+        {
+            return await _orderService.DeliverRestockToShop(orderId);
         }
     }
 }

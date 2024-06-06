@@ -28,7 +28,7 @@ namespace WebGeoRepository.Repositories
             var sql = @$"
             SELECT *
             FROM public.""Localities""
-            ORDER BY ""Location"" <-> ST_Transform(ST_SetSRID(ST_MakePoint({cordX}, {cordY}), 4326), 3763)
+            ORDER BY ""Location"" <-> ST_Transform(ST_SetSRID(ST_MakePoint({cordY}, {cordX}), 4326), 3763)
             LIMIT 1";
 
             return await _context.Localities

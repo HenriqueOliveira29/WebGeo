@@ -50,6 +50,10 @@ namespace WebGeoRepository
                .WithMany(e => e.Orders)
                .HasForeignKey(e => e.ClientId);
 
+                a.HasOne(e => e.StorageRestock)
+                .WithMany(a => a.OrderRestocked)
+                .HasForeignKey(a => a.StorageRestockId);
+
 
             });
             modelBuilder.Entity<Shop>(a =>

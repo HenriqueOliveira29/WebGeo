@@ -10,6 +10,8 @@
 
         private DateTime? dateDeliver;
 
+        public DateTime? dateDeliverToClient;
+
         private int clientId;
 
         private Client client;
@@ -21,10 +23,16 @@
         private int shopId;
         private Shop shop;
 
+        private int? storageRestockId;
+
+        private Storage? storageRestock;
+
         public int Id { get { return id; } private set => id = value; }
         public DateTime Date { get { return date; } private set => date = value; }
         public string State { get { return state; } private set => state = value; }
         public DateTime? DateDeliver { get { return dateDeliver; } private set => dateDeliver = value; }
+
+        public DateTime? DateDeliverToClient { get { return dateDeliverToClient; } private set => dateDeliverToClient = value; }
 
         public int ClientId { get { return clientId; } private set => clientId = value; }
         public Client Client { get { return client; } private set => client = value; }
@@ -32,6 +40,9 @@
         public List<Product> Products { get { return products; } private set => products = value; }
         public int ShopId { get { return shopId; } private set => shopId = value; }
         public Shop Shop { get { return shop; } private set => shop = value; }
+
+        public int? StorageRestockId { get { return storageRestockId; } private set => storageRestockId = value; }
+        public Storage? StorageRestock { get { return storageRestock; } private set => storageRestock = value; }
 
         public Order()
         {
@@ -69,6 +80,23 @@
         public void Cancel()
         {
             this.State = OrderState.Canceled.ToString();
+        }
+
+        public void DeliverToClient()
+        {
+            this.DateDeliverToClient = DateTime.Now.ToUniversalTime();
+            this.State = OrderState.Concluded.ToString();
+        }
+
+        public void DeliverToShop()
+        {
+            this.State = OrderState.WaitForClient.ToString();
+        }
+
+        public void SetStorageReStock(Storage storage)
+        {
+            this.StorageRestockId = storage.Id;
+            this.StorageRestock = storage;
         }
 
     }

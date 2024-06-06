@@ -13,6 +13,8 @@ namespace WebGeoInfrastructure.Interfaces.Services
 
         public Task<MessagingHelper> CancelOrder(int id);
 
-        public Task<MessagingHelper<List<RoutesCordDTO>>> CalculateBestPath(CalculateRouteDTO calculateRoute);
+        public Task<MessagingHelper<OrderDetailDTO>> CalculateBestPath(CalculateRouteDTO calculateRoute);
+        public Task<MessagingHelper> DelieverToClient(int orderId);
+        public Task<MessagingHelper> DeliverRestockToShop(int orderId);
     }
 }

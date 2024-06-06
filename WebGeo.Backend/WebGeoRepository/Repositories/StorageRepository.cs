@@ -51,7 +51,7 @@ namespace WebGeoRepository.Repositories
             return await _context.ProductStorages.Include(ps => ps.Product).Include(ps => ps.Storage).Where(ps => ps.Product.Id == productId && ps.Storage.Id == storageId).FirstOrDefaultAsync();
         }
 
-        public async Task<ProductStorage> UpdateStockProductStorage(ProductStorage productStorage)
+        public async Task<ProductStorage> UpdateProductStorage(ProductStorage productStorage)
         {
             _context.Entry<ProductStorage>(productStorage).CurrentValues.SetValues(productStorage);
             await _context.SaveChangesAsync();

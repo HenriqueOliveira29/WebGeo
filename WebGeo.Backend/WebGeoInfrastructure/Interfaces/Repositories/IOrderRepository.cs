@@ -12,8 +12,10 @@ namespace WebGeoInfrastructure.Interfaces.Repositories
         public Task<Order?> GetById(int id);
 
         public Task<Order> Update(Order order);
-        public Task<List<ProductOrder>> getProductOrdersToRestock(int id);
+        public Task<List<ProductOrder>> GetProductOrdersToRestock(int id);
 
         public Task<List<Order>> GetOrdersToRestock();
+
+        public Task<ProductStorage> UpdateProductStorage(ProductStorage productStorage);
     }
 }

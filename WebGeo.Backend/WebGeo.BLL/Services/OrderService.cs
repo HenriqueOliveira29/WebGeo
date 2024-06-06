@@ -1,5 +1,4 @@
 ﻿using WebGeoInfrastructure.DTOs.Order;
-using WebGeoInfrastructure.DTOs.Product;
 using WebGeoInfrastructure.Entities;
 using WebGeoInfrastructure.Helpers;
 using WebGeoInfrastructure.Interfaces.Repositories;
@@ -57,17 +56,34 @@ namespace WebGeo.BLL.Services
                     return response;
                 }
 
-                foreach (ProductListDTO product in createOrder.Products)
+                foreach (ProductCreateOrder product in createOrder.Products)
                 {
-                    var productExist = await _productRepository.GetById(product.Id);
+                    var productExist = await _productRepository.GetById(product.ProductId);
                     if (productExist == null)
                     {
                         response.Success = false;
-                        response.Message = $"Product with id {product.Id} doesn't exist";
+                        response.Message = $"Product with id {product} doesn't exist";
                         return response;
                     }
-                    var addProduct = AddProductToOrder(productExist, order, product.Quantity);
+                    var addProduct = await AddProductToOrder(productExist, order, product.Quantity);
                 }
+
+                foreach (ProductOrder product in order.ProductOrders)
+                {
+                    var ProductInShop = await _shopRepository.GetProductShop(order.ShopId, product.ProductId);
+                    if (ProductInShop == null || product.Quantity > ProductInShop.Stock)
+                    {
+                        order.SetOrderOnWaitingStock();
+                        product.SetIsNotInShop();
+                    }
+                    else
+                    {
+                        ProductInShop.RetireStock(product.Quantity);
+                    }
+                }
+
+                await _orderRepository.Update(order);
+
                 response.Success = true;
             }
             catch (Exception ex)
@@ -80,7 +96,7 @@ namespace WebGeo.BLL.Services
 
         public async Task<List<OrderListDTO>> GetOrders()
         {
-            var orders = await _orderRepository.GetOrders();
+            var orders = await _orderRepository.GetOrdersToRestock();
             var response = orders.Select(t => new OrderListDTO(t)).ToList();
 
             return response;
@@ -151,6 +167,12 @@ namespace WebGeo.BLL.Services
                     response.Message = "This order doesn't exist";
                     return response;
                 }
+                if (orderExist.Date > DateTime.Now.AddHours(-1))
+                {
+                    response.Success = false;
+                    response.Message = "Não pode cancelar 1 hora depois de fazer a encomenda";
+                    return response;
+                }
 
                 orderExist.Cancel();
 
@@ -165,9 +187,9 @@ namespace WebGeo.BLL.Services
             return response;
         }
 
-        public async Task<MessagingHelper<List<RoutesCordDTO>>> CalculateBestPath(CalculateRouteDTO calculateRoute)
+        public async Task<MessagingHelper<OrderDetailDTO>> CalculateBestPath(CalculateRouteDTO calculateRoute)
         {
-            MessagingHelper<List<RoutesCordDTO>> response = new MessagingHelper<List<RoutesCordDTO>>();
+            MessagingHelper<OrderDetailDTO> response = new MessagingHelper<OrderDetailDTO>();
             try
             {
                 var order = await _orderRepository.GetById(calculateRoute.OrderId);
@@ -193,7 +215,9 @@ namespace WebGeo.BLL.Services
                     response.Message = "Não foi possivel encontrar a localidade mais perto";
                 }
 
-                var storage = await GetBetterRoadToReStock(calculateRoute.EstafetaX, calculateRoute.EstafetaY, order.ShopId);
+                var storage = await GetBetterRoadToReStock(calculateRoute.EstafetaX, calculateRoute.EstafetaY, order.Id);
+                order.SetStorageReStock(storage);
+                await _orderRepository.Update(order);
 
                 var rotaEstafetaStorage = await CalculateRoute(locality, storage.Locality);
                 var rotaStorageShop = await CalculateRoute(storage.Locality, shop.Locality);
@@ -211,7 +235,7 @@ namespace WebGeo.BLL.Services
 
 
                 List<RoutesCordDTO> result = routes.Select(t => GeometryConverter.GetCoordinates(GeometryConverter.TransformToSrid(t.Location as NetTopologySuite.Geometries.Point, 4326))).ToList();
-                response.Obj = result;
+                response.Obj = new OrderDetailDTO(order, result);
                 response.Success = true;
             }
             catch (Exception ex)
@@ -238,7 +262,7 @@ namespace WebGeo.BLL.Services
         {
             Storage storageToReturn = null;
             int pontos = 0;
-            var productOrdersToRestock = await _orderRepository.getProductOrdersToRestock(orderId);
+            var productOrdersToRestock = await _orderRepository.GetProductOrdersToRestock(orderId);
             List<Storage> closestStorages = await _shopRepository.GetStoragesCloseToShopToReStock(cordX, cordY);
             if (closestStorages.Count > 0)
             {
@@ -263,6 +287,96 @@ namespace WebGeo.BLL.Services
 
             return storageToReturn;
 
+        }
+
+        public async Task<MessagingHelper> DelieverToClient(int orderId)
+        {
+            MessagingHelper response = new MessagingHelper();
+            try
+            {
+                var order = await _orderRepository.GetById(orderId);
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "Esta encomenda não existe";
+                    return response;
+                }
+
+                if (order.State != OrderState.WaitForClient.ToString())
+                {
+                    response.Success = false;
+                    response.Message = "Esta encomenda ainda não esta a espera do cliente";
+                    return response;
+                }
+
+                order.DeliverToClient();
+
+                await _orderRepository.Update(order);
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<MessagingHelper> DeliverRestockToShop(int orderId)
+        {
+            MessagingHelper response = new MessagingHelper();
+            try
+            {
+                var order = await _orderRepository.GetById(orderId);
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "Esta encomenda não existe";
+                    return response;
+                }
+
+                if (order.State != OrderState.WaitingForStock.ToString())
+                {
+                    response.Success = false;
+                    response.Message = "Esta encomenda não esta a espera de stock";
+                    return response;
+                }
+
+                var productOrders = order.ProductOrders.ToList();
+
+                if (order.StorageRestockId == null)
+                {
+                    response.Success = false;
+                    response.Message = "Esta encomenda não tem armazem de restock";
+                    return response;
+                }
+
+
+                foreach (var productOrder in productOrders)
+                {
+                    if (productOrder.InShop == false)
+                    {
+                        var productStorage = await _storageRepository.GetProductStorage(Convert.ToInt32(order.StorageRestockId), productOrder.ProductId);
+                        if (productStorage != null)
+                        {
+                            productStorage.SubtractStock(productOrder.Quantity);
+                            await _storageRepository.UpdateProductStorage(productStorage);
+                        }
+                    }
+                }
+
+                order.DeliverToShop();
+
+                await _orderRepository.Update(order);
+                response.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            return response;
         }
     }
 }

@@ -48,5 +48,10 @@
         {
             this.Stock += quantity;
         }
+
+        public void SubtractStock(float quantity)
+        {
+            this.Stock -= quantity;
+        }
     }
 }

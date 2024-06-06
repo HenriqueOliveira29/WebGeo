@@ -39,18 +39,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), psqloptions => psqloptions.UseNetTopologySuite()));
 
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IShopRepository, ShopRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IStorageRepository, StorageRepository>();
-builder.Services.AddScoped<IRoutesRepository, RoutesRepository>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IClientRepository, ClientRepository>();
+builder.Services.AddTransient<IShopRepository, ShopRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IStorageRepository, StorageRepository>();
+builder.Services.AddTransient<IRoutesRepository, RoutesRepository>();
 
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IShopService, ShopService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IStorageService, StorageService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IClientService, ClientService>();
+builder.Services.AddTransient<IShopService, ShopService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IStorageService, StorageService>();
 
 var app = builder.Build();
 

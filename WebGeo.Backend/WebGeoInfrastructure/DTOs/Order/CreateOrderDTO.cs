@@ -1,6 +1,4 @@
-﻿using WebGeoInfrastructure.DTOs.Product;
-
-namespace WebGeoInfrastructure.DTOs.Order
+﻿namespace WebGeoInfrastructure.DTOs.Order
 {
     public class CreateOrderDTO
     {
@@ -10,6 +8,13 @@ namespace WebGeoInfrastructure.DTOs.Order
 
         public DateTime DateDeliver { get; set; }
 
-        public List<ProductListDTO> Products { get; set; }
+        public List<ProductCreateOrder> Products { get; set; }
+    }
+
+    public class ProductCreateOrder
+    {
+        public int ProductId { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

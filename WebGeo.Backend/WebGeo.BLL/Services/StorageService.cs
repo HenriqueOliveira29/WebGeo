@@ -12,7 +12,6 @@ namespace WebGeo.BLL.Services
         private readonly IProductRepository _productRepository;
         public StorageService(IStorageRepository storageRepository, IProductRepository productRepository)
         {
-
             _storageRepository = storageRepository;
             _productRepository = productRepository;
         }
@@ -51,7 +50,7 @@ namespace WebGeo.BLL.Services
                 else
                 {
                     productStorageExist.AddStock(addProductToStorage.quantity);
-                    var update = await _storageRepository.UpdateStockProductStorage(productStorageExist);
+                    var update = await _storageRepository.UpdateProductStorage(productStorageExist);
                 }
                 response.Success = true;
             }
