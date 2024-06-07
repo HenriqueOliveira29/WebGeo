@@ -22,6 +22,8 @@ namespace WebGeoInfrastructure.DTOs.Order
 
         public string StorageName { get; set; }
 
+        public int Time { get; set; }
+
         public OrderDetailDTO(WebGeoInfrastructure.Entities.Order order, List<RoutesCordDTO> routes)
         {
             Id = order.Id;

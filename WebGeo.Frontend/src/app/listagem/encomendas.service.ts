@@ -12,18 +12,30 @@ import { OrderMapaComponent } from '../order-mapa/order-mapa.component';
 })
 export class EncomendasService {
 
-  async getEncomenda(orderId: string | null) : Promise<Observable<MessagingHelper<encomendaDetail>>> {
+  async getEncomenda(orderId: string | null, cordX: number, cordY: number) : Promise<Observable<MessagingHelper<encomendaDetail>>> {
     var headerssend = new HttpHeaders();
     headerssend.append("Accept", 'application/json');
     headerssend.append('Content-Type', 'application/json' );
 
-    var cords = await OrderMapaComponent.getUserLocation();
-    let postdata = {
-      "estafetaX" : cords.lat,
-      "estafetaY" : cords.lng,
+    let postdata;
+    if(cordX == 0 || cordY == 0)
+    {
+      var cords = await OrderMapaComponent.getUserLocation();
+      postdata = {
+      "estafetaX" : cords.lng,
+      "estafetaY" : cords.lat,
       "orderId" : orderId
+      }
     }
-
+    else{
+      console.log("ola tudo bem")
+      postdata = {
+        "estafetaX" : cordY,
+        "estafetaY" : cordX,
+        "orderId" : orderId
+      }
+    }
+    
     return await this.httpClient.post<MessagingHelper<encomendaDetail>>(`${this.endPoint}/Order/GetOrderByIdAndCords`, postdata, { headers: headerssend })
   }
 

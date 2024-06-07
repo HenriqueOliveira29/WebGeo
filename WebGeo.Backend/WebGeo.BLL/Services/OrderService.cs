@@ -221,6 +221,7 @@ namespace WebGeo.BLL.Services
 
                 var rotaEstafetaStorage = await CalculateRoute(locality, storage.Locality);
                 var rotaStorageShop = await CalculateRoute(storage.Locality, shop.Locality);
+
                 List<Locality> routes = new List<Locality>();
                 foreach (var local in rotaEstafetaStorage)
                 {

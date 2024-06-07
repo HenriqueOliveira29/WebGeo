@@ -31,5 +31,12 @@
           <ion-button (click)="entregarEncomenda()">Entregar Encomenda</ion-button>     
       </ion-col>
     </ion-row>
+    <ion-item>
+      <ion-label position="floating">Longitude</ion-label>
+      <ion-input [(ngModel)]="cordX"></ion-input>
+      <ion-label position="floating">Latitude</ion-label>
+      <ion-input [(ngModel)]="cordY"></ion-input>
+      <ion-button (click)="calcularRotaComNovasCords()">Aplicar Coordenadas</ion-button>  
+    </ion-item>
   </ion-content>
 </ion-content>

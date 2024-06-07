@@ -23,6 +23,9 @@ import { setAlternateWeakRefImpl } from '@angular/core/primitives/signals';
 export class OrderDetailPage implements OnInit {
  
   public encomenda: encomendaDetail | null = null;
+  public cordX: number = 0;
+  public cordY: number = 0;
+  public orderId: string | null = "";
 
   constructor(
     private activeRoutes: ActivatedRoute,
@@ -36,8 +39,8 @@ export class OrderDetailPage implements OnInit {
       async paramMap => {
         if(paramMap.has("orderId"))
         {
-          const orderId = paramMap.get("orderId");
-          var response = await this.orderService.getEncomenda(orderId);
+          this.orderId = paramMap.get("orderId");
+          var response = await this.orderService.getEncomenda(this.orderId, this.cordX, this.cordY);
           response.subscribe(result => {
             console.log(result)
             if(result.success == false)
@@ -52,6 +55,21 @@ export class OrderDetailPage implements OnInit {
         }
       }
     )
+  }
+
+  public async calcularRotaComNovasCords() : Promise<void>{
+    var response = await this.orderService.getEncomenda(this.orderId, this.cordX, this.cordY);
+          response.subscribe(result => {
+            console.log(result)
+            if(result.success == false)
+            {
+              alert(result.message);
+            }
+            else{
+              this.encomenda = result.obj;
+              this.orderMapaComponent.addRoutes(this.encomenda.routes);
+            }
+          });
   }
 
   public async entregarEncomenda() : Promise<void> {

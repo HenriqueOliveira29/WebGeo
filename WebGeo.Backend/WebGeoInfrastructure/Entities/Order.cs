@@ -60,6 +60,10 @@
 
         public void SetDateDeliver(DateTime date)
         {
+            if (date.AddDays(-5) < DateTime.Now)
+            {
+                throw new ArgumentException("Data de entrega não é válida");
+            }
             this.dateDeliver = date.ToUniversalTime();
         }
 

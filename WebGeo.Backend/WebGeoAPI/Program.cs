@@ -24,7 +24,7 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
            .AllowAnyMethod()
            .AllowAnyHeader();
 
-    builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+    builder.WithOrigins("http://localhost:8100", "https://localhost:8100")
            .AllowAnyMethod()
            .AllowAnyHeader()
            .AllowCredentials();
@@ -51,8 +51,13 @@ builder.Services.AddTransient<IClientService, ClientService>();
 builder.Services.AddTransient<IShopService, ShopService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, StorageService>();
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
