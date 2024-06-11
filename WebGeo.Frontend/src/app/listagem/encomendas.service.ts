@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EncomendaList } from '../modules/encomendaList.model';
-import { HttpClient, HttpHeaders, HttpParams, HttpParamsOptions  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessagingHelper } from '../modules/messagingHelper.model';
-import { Observable, catchError } from 'rxjs';
-import { RoutesList } from '../modules/routesList.module';
+import { Observable } from 'rxjs';
 import { encomendaDetail } from '../modules/encomendaDetail.model';
 import { OrderMapaComponent } from '../order-mapa/order-mapa.component';
 

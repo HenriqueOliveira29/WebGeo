@@ -2,15 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule} from '@ionic/angular';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EncomendasService } from '../encomendas.service';
 import { MapaModule } from 'src/app/mapa/mapa.module';
-import { RoutesList } from 'src/app/modules/routesList.module';
 import { OrderMapaComponent } from 'src/app/order-mapa/order-mapa.component';
 import { encomendaDetail } from 'src/app/modules/encomendaDetail.model';
-import { MessagingHelper } from 'src/app/modules/messagingHelper.model';
-import { setAlternateWeakRefImpl } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-order-detail',
@@ -26,6 +22,7 @@ export class OrderDetailPage implements OnInit {
   public cordX: number = 0;
   public cordY: number = 0;
   public orderId: string | null = "";
+  public intervalId: any;
 
   constructor(
     private activeRoutes: ActivatedRoute,
@@ -40,21 +37,18 @@ export class OrderDetailPage implements OnInit {
         if(paramMap.has("orderId"))
         {
           this.orderId = paramMap.get("orderId");
-          var response = await this.orderService.getEncomenda(this.orderId, this.cordX, this.cordY);
-          response.subscribe(result => {
-            console.log(result)
-            if(result.success == false)
-            {
-              alert(result.message);
-            }
-            else{
-              this.encomenda = result.obj;
-              this.orderMapaComponent.addRoutes(this.encomenda.routes);
-            }
-          });
+          this.calcularRotaComNovasCords();
+          this.intervalId = setInterval(() => this.calcularRotaComNovasCords(), 15 * 60 * 1000);
         }
       }
     )
+  }
+
+  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   public async calcularRotaComNovasCords() : Promise<void>{
@@ -73,7 +67,6 @@ export class OrderDetailPage implements OnInit {
   }
 
   public async entregarEncomenda() : Promise<void> {
-    console.log("ola tudo bem")
     var response = await this.orderService.entregarEncomendaToShop(this.encomenda != null ? this.encomenda.id : 0);
           response.subscribe(result => {
             console.log(result)
